@@ -1,17 +1,9 @@
 Задание 1-2
 -----------
 
+Короткие грубые гистограммы представлены в последней колонке таблицы.
+
     df <-  read_csv("insurance_cost.csv")
-
-    ## Rows: 1338 Columns: 7
-    ## -- Column specification --------------------------------------------------------
-    ## Delimiter: ","
-    ## chr (3): sex, smoker, region
-    ## dbl (4): age, bmi, children, charges
-    ## 
-    ## i Use `spec()` to retrieve the full column specification for this data.
-    ## i Specify the column types or set `show_col_types = FALSE` to quiet this message.
-
     skim(df)
 
 <table>
@@ -275,33 +267,33 @@
     ggplot(df, aes(x = age, y = charges)) +
       geom_point(alpha = 0.5) +
       geom_smooth() +
+      ggtitle("Зависимость трат от возраста застрахованных") +
       xlab("Возраст, лет") +
       ylab("Траты в год") +
-      theme_minimal()
-
-    ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+      theme_minimal() +
+      theme(axis.text.x = element_text(size = 14))
 
 ![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_age-1.png)
 
     ggplot(df, aes(x = age, y = charges, color = smoker)) +
       geom_point(alpha = 0.5) +
       geom_smooth() +
+      ggtitle("Зависимость трат от возраста застрахованных") +
       xlab("Возраст, лет") +
       ylab("Траты в год") +
-      theme_minimal()
-
-    ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+      theme_minimal() +
+      theme(axis.text.x = element_text(size = 14))
 
 ![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_age_smokers-1.png)
 
     ggplot(df, aes(x = bmi, y = charges, color = smoker)) +
       geom_point(alpha = 0.5) +
       geom_smooth() +
+      ggtitle("Зависимость трат от ИМТ застрахованных") +
       xlab("Индекс массы тела") +
       ylab("Траты в год") +
-      theme_minimal()
-
-    ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
+      theme_minimal() +
+      theme(axis.text.x = element_text(size = 14))
 
 ![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_bmi_smokers-1.png)
 
@@ -328,8 +320,6 @@
 Взглянем еще раз на график зависимости трат от BMI в группах курящих и
 некурящих.
 
-    ## `geom_smooth()` using method = 'gam' and formula 'y ~ s(x, bs = "cs")'
-
 ![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_bmi_smokers1-1.png)
 
 Видно, что выборка сильно разделяется по фактору курения и по BMI,
@@ -343,13 +333,7 @@
 в подгруппах курящих/некурящих и клиентов с ожирением/без ожирения. Два
 синонимичных графика:
 
-    ## `geom_smooth()` using method = 'loess' and formula 'y ~ x'
-
-![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_obesity_smokers2-1.png)
-
-    ## `geom_smooth()` using formula 'y ~ x'
-
-![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_obesity_smokers2-2.png)
+![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_obesity_smokers2-1.png)![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_obesity_smokers2-2.png)
 
 Выводы:
 
@@ -373,8 +357,6 @@
 Есть тенденция к росту затрат при росте числа детей. Изучим зависимость
 трат от возраста и числа детей.
 
-    ## `geom_smooth()` using formula 'y ~ x'
-
 ![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_children2-1.png)
 
 Выводы:
@@ -392,11 +374,7 @@
 Проведем те же манипуляции для изучения влияния пола в подгруппе
 некурящих.
 
-![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_sex-1.png)
-
-    ## `geom_smooth()` using formula 'y ~ x'
-
-![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_sex-2.png)
+![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_sex-1.png)![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_sex-2.png)
 
 Выводы:
 
@@ -409,11 +387,7 @@
 Проведем те же манипуляции для изучения влияния региона в подгруппе
 некурящих.
 
-![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_region1-1.png)
-
-    ## `geom_smooth()` using formula 'y ~ x'
-
-![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_region1-2.png)
+![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_region1-1.png)![](Dmitry-Zubkov---DataViz---HW1_files/figure-markdown_strict/charges_region1-2.png)
 
 Выводы:
 
