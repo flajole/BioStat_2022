@@ -442,15 +442,19 @@
       dist(method = "euclidean") %>%
       hclust(method = "ward.D2")
 
-    #fviz_dend(df.hc, show_labels = F)
+    fviz_dend(df.hc, show_labels = F)
+
+![](Dmitry-Zubkov---DataViz---HW2_files/figure-markdown_strict/cluster1-1.png)
 
 Раскрасим кластеры, волюнтаристски выбрав отсечение на 5 кластерах.
 
-    # fviz_dend(df.hc, k = 5,
-    #           show_labels = F,
-    #           k_colors = "Set1",
-    #           color_labels_by_k = TRUE,
-    #           rect = TRUE)
+    fviz_dend(df.hc, k = 5,
+              show_labels = F,
+              k_colors = "Set1",
+              color_labels_by_k = TRUE,
+              rect = TRUE)
+
+![](Dmitry-Zubkov---DataViz---HW2_files/figure-markdown_strict/cluster2-1.png)
 
 Визуализируем PCA с идентифицированными выше кластерами.
 
@@ -606,7 +610,8 @@ PCA будем оценивать по проценту объясненной �
 
     p1 <- 
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (nothing excluded)")
+      ggtitle("Nothing excluded") +
+      ylim(0, 35)
 
     df.pca <- 
       df.dummy %>%
@@ -615,7 +620,8 @@ PCA будем оценивать по проценту объясненной �
 
     p2 <- 
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (smoker dummies excluded)")
+      ggtitle("Smoker dummies excluded") +
+      ylim(0, 35)
 
     df.pca <- 
       df.dummy %>%
@@ -624,7 +630,8 @@ PCA будем оценивать по проценту объясненной �
 
     p3 <-
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (region dummies excluded)")
+      ggtitle("Region dummies excluded") +
+      ylim(0, 35)
 
     df.pca <- 
       df.dummy %>%
@@ -633,7 +640,8 @@ PCA будем оценивать по проценту объясненной �
 
     p4 <- 
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (sex dummies excluded)")
+      ggtitle("Sex dummies excluded") +
+      ylim(0, 35)
 
     ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
 
@@ -654,7 +662,8 @@ PCA будем оценивать по проценту объясненной �
 
     p1 <- 
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (nothing added)")
+      ggtitle("Nothing added") +
+      ylim(0, 35)
 
     df.pca <- 
       df.2.dummy %>%
@@ -663,7 +672,8 @@ PCA будем оценивать по проценту объясненной �
 
     p2 <-
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (smoker_sex dummies added)")
+      ggtitle("Smoker_sex dummies added") +
+      ylim(0, 35)
 
     df.pca <- 
       df.2.dummy %>%
@@ -672,7 +682,8 @@ PCA будем оценивать по проценту объясненной �
 
     p3 <-
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (age_group dummies added)") 
+      ggtitle("Age_group dummies added")  +
+      ylim(0, 35)
 
     df.pca <- 
       df.2.dummy %>%
@@ -681,7 +692,8 @@ PCA будем оценивать по проценту объясненной �
 
     p4 <- 
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (obesity dummies added)")
+      ggtitle("Obesity dummies added") +
+      ylim(0, 35)
 
     ggarrange(p1, p2, p3, p4, ncol = 2, nrow = 2)
 
@@ -702,7 +714,8 @@ PCA будем оценивать по проценту объясненной �
 
     p1 <- 
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (nothing added or excluded)")
+      ggtitle("Nothing added or excluded") +
+      ylim(0, 35)
 
     df.pca <- 
       df.2.dummy %>%
@@ -711,9 +724,10 @@ PCA будем оценивать по проценту объясненной �
 
     p2 <- 
       fviz_eig(df.pca)+
-      ggtitle("Scree plot (smoker_sex dummies added, region excluded)")
+      ggtitle("Smoker_sex added, region excluded") +
+      ylim(0, 35)
 
-    ggarrange(p1, p2, ncol = 2, nrow = 1)
+    ggarrange(p1, p2, ncol = 1, nrow = 2)
 
 ![](Dmitry-Zubkov---DataViz---HW2_files/figure-markdown_strict/pca2-1.png)
 
@@ -728,5 +742,5 @@ PCA будем оценивать по проценту объясненной �
     видели и по кластеризации по фактору smoker\_sex).
 -   Переменная region вносит дополнительную вариабельность в данные.
     Поэтому если ее исключить, объяснять придется меньше, а потому
-    качство PCA растет.
+    качество PCA растет.
 
