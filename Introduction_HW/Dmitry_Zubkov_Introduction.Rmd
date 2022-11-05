@@ -1,0 +1,53 @@
+---
+title: "Введение в автоматизацию обработки данных на R. ДЗ"
+author: "Дмитрий Зубков"
+date: "November 5, 2022"
+output: 
+  word_document:
+    reference_docx: word_styles.docx
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(gtsummary)
+library(flextable)
+Sys.setlocale("LC_CTYPE", "russian")
+knitr::opts_chunk$set(echo = FALSE, message = FALSE, warning = FALSE)
+```
+
+
+```{r download}
+df <- 
+  readxl::read_xlsx("data_excel.xlsx") %>%
+  mutate(across(-(1:5), ~ gsub(',', '.', .x))) %>%
+  mutate(across(-(1:5), as.numeric)) %>%
+  mutate(`Группа крови` = replace(`Группа крови`, `Группа крови` == "NA", "Нет данных")) %>%
+  mutate(across(c(1, 3, 5), as.factor)) %>%
+  pivot_longer(-(1:5), names_to = c("Параметр", "Визит"), names_sep = "_", values_to = "Значение") %>%
+  mutate(`Значение` = replace(`Значение`, `Значение` < 0, NA)) %>%
+  mutate(`Визит` = case_when(`Визит` == "E1" ~ "Визит 1",
+                             `Визит` == "E2" ~ "Визит 2")) %>%
+  pivot_wider(names_from = `Параметр`, values_from = `Значение`)
+  
+```
+
+## Таблица 1. Демографические параметры по группам
+
+```{r demographics}
+tbl_summary(df[1:5], by = "Группа") %>%
+  add_p()
+```
+
+## Таблица 2. Гематологические параметры по визитам в разных группах
+
+```{r haemotology}
+tbl_strata(df[-(2:5)], 
+           strata = c("Визит"),
+           .tbl_fun = ~ .x %>% 
+             tbl_summary(by = Группа, 
+                         missing = "always", 
+                         missing_text = "Ошибка в значении") %>% 
+             add_p(test = all_continuous() ~ "wilcox.test", 
+                   test.arg = all_tests("wilcox.test") ~ list(exact = FALSE)))
+
+```
